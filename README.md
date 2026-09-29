@@ -1,44 +1,74 @@
-# CalorieAI
+# 🥗 CalorieAI
 
-CalorieAI is a local-first, personal calorie tracking iOS app that uses the Gemini API for AI food recognition and calorie estimation, and HealthKit for activity tracking.
+![iOS 18.0+](https://img.shields.io/badge/iOS-18.0%2B-blue) ![Swift 6.0](https://img.shields.io/badge/Swift-6.0-orange) ![SwiftUI](https://img.shields.io/badge/UI-SwiftUI-informational)
 
-## Features
-- **Local-First Architecture:** No backend required. Uses SwiftData for local persistence.
-- **AI Food Recognition:** Snap a photo of your food, and Gemini AI will estimate the portion size, calories, and macros.
-- **HealthKit Integration:** Automatically syncs your steps, active energy burned, and weight from Apple Health.
-- **Daily Dashboard:** Tracks your daily consumed calories against a calculated BMR target.
-- **Local Reminders:** Sends a 20:00 local notification reminder to check your summary.
+**CalorieAI** is a smart, local-first personal calorie tracking iOS app. Instead of manually searching databases for food, you simply take a photo of your meal. The app uses AI Vision models (via OpenRouter) to automatically identify the food, estimate portion sizes, and calculate nutritional macros (Calories, Protein, Carbs, Fat). 
 
-## Setup Instructions
+Everything is stored locally on your device, seamlessly integrating with Apple Health to provide a complete picture of your daily activity and nutrition.
 
-### 1. Requirements
-- iOS 18.0+
-- Xcode 16+
-- An active Google Gemini API Key
+---
 
-### 2. Configure API Key
-The app uses an xcconfig file to inject the API key to prevent committing secrets to git.
+## ✨ Features
 
-1. Open `Secrets.xcconfig` in the root folder (it's ignored by Git).
-2. Add your Gemini API key like this:
-```text
-GEMINI_API_KEY = "AIzaSy..."
-```
+- **📸 AI Food Recognition:** Snap a photo or choose from your library. The AI analyzes the image, identifies the food, and estimates the calories and macros automatically.
+- **🍎 Local-First & Private:** No backend, no accounts, no cloud databases. Your food logs are stored entirely locally on your iPhone using `SwiftData`. Images are processed and immediately discarded to save storage space.
+- **❤️ Apple Health Integration:** Automatically syncs your Steps, Active Energy Burned, and Weight from HealthKit to give you a full overview of your day.
+- **🎯 Smart Calorie Goals:** Calculates your BMR and TDEE based on your profile (weight, height, age, gender, activity level) to suggest an optimal daily calorie target for weight loss.
+- **✍️ Manual Entry & Edit:** AI isn't perfect. You can easily edit the AI's estimates before saving, or manually log food without a photo.
+- **👉 Native UX:** Features standard iOS interactions like swipe-to-delete for food logs and keyboard-optimized input fields.
 
-### 3. Generate Xcode Project (if needed)
-If the `.xcodeproj` is missing or you need to regenerate it, this project uses [XcodeGen](https://github.com/yonaskolb/XcodeGen):
-```bash
-brew install xcodegen
-xcodegen
-```
+## 🛠 Tech Stack & Architecture
 
-### 4. HealthKit Capabilities
-- When running on a physical device, ensure you add the HealthKit capability in Xcode under "Signing & Capabilities".
-- The app requests reading `Step Count`, `Active Energy Burned`, and `Body Mass`.
+- **Platform:** iOS 18+ (iPhone only)
+- **Language:** Swift 6
+- **UI Framework:** SwiftUI
+- **Local Database:** SwiftData
+- **Health Data:** HealthKit
+- **AI Integration:** OpenRouter API (Accessing Vision models)
+- **Project Management:** XcodeGen
 
-## Mock Mode (Development)
-To run the app without real HealthKit data or API calls, you can toggle `isMockMode = true` in `DashboardViewModel`. It provides a static set of health metrics and randomly generated history for UI testing.
+---
 
-## Known Limitations
-- The accuracy of calorie estimations highly depends on the provided image and Gemini's current reasoning capabilities. All estimates should be reviewed and can be manually edited before saving.
-- This app is meant for personal tracking and does not provide medical advice.
+## 🚀 Setup & Installation
+
+### 1. Prerequisites
+- A Mac running **macOS 14+**
+- **Xcode 16+** installed
+- An active **OpenRouter API Key** (to process images)
+
+### 2. Configure API Keys (Important!)
+To keep your API keys secure, this project uses an external `.xcconfig` file which is ignored by Git.
+
+1. At the root of the project, create a new file named `Secrets.xcconfig`
+2. Add your OpenRouter API key inside the file:
+   ```text
+   OPENROUTER_API_KEY = "sk-or-v1-..."
+   ```
+
+### 3. Generate the Xcode Project
+This project uses `project.yml` to prevent Git conflicts in the `.xcodeproj` file. 
+
+1. Install XcodeGen (if you don't have it):
+   ```bash
+   brew install xcodegen
+   ```
+2. Generate the project:
+   ```bash
+   xcodegen
+   ```
+3. Open `CalorieAI.xcodeproj` in Xcode.
+
+### 4. Running on a Physical iPhone
+- **Developer Mode:** Ensure **Developer Mode** is enabled on your iPhone (`Settings > Privacy & Security > Developer Mode`). Do not turn this off, or the app will fail to launch.
+- **Signing:** In Xcode, go to the project settings, select the `CalorieAI` target, navigate to `Signing & Capabilities`, and select your Personal Apple ID team.
+- **HealthKit:** The app will prompt for HealthKit permissions on first launch.
+
+---
+
+## ⚠️ Known Limitations & Disclaimers
+
+- **AI Estimation:** Calorie and macro estimates are generated by AI. They are educated guesses based on visual data and should not be treated as absolute or medically accurate truth. Always verify the results.
+- **Development Profile:** If you install this app using a free Personal Apple Developer account, the app will expire every 7 days. You must plug your phone into your Mac and rebuild it via Xcode to renew it (your data will **not** be lost).
+
+## 📝 License
+This project is built as a personal MVP tracker. Feel free to fork and modify it for your own personal use!
