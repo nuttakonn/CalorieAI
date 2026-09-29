@@ -1,0 +1,53 @@
+name: CalorieAI
+options:
+  bundleIdPrefix: com.example
+targets:
+  CalorieAI:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources: [CalorieAI]
+    entitlements:
+      path: CalorieAI/CalorieAI.entitlements
+      properties:
+        com.apple.developer.healthkit: true
+        com.apple.developer.healthkit.access: []
+    info:
+      path: CalorieAI/Info.plist
+      properties:
+        GEMINI_API_KEY: $(GEMINI_API_KEY)
+        OPENROUTER_API_KEY: $(OPENROUTER_API_KEY)
+        NSCameraUsageDescription: "CalorieAI needs camera access to take photos of your food."
+        NSHealthShareUsageDescription: "CalorieAI needs to read your health data to track steps, active energy, and weight."
+        NSHealthUpdateUsageDescription: "CalorieAI needs health data access."
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+          UISceneConfigurations: {}
+        UILaunchScreen: {}
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        PRODUCT_BUNDLE_IDENTIFIER: com.nuttakon.CalorieAI
+        SWIFT_VERSION: 6.0
+        DEVELOPMENT_TEAM: "7H9644GZUW"
+        MARKETING_VERSION: 1.0
+        CURRENT_PROJECT_VERSION: 1
+      configs:
+        Debug:
+          GCC_PREPROCESSOR_DEFINITIONS: "DEBUG=1"
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+    configFiles:
+      Debug: Secrets.xcconfig
+      Release: Secrets.xcconfig
+  CalorieAITests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources: [CalorieAITests]
+    dependencies:
+      - target: CalorieAI
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
