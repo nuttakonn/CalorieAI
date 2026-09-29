@@ -15,7 +15,6 @@ targets:
     info:
       path: CalorieAI/Info.plist
       properties:
-        GEMINI_API_KEY: $(GEMINI_API_KEY)
         OPENROUTER_API_KEY: $(OPENROUTER_API_KEY)
         NSCameraUsageDescription: "CalorieAI needs camera access to take photos of your food."
         NSHealthShareUsageDescription: "CalorieAI needs to read your health data to track steps, active energy, and weight."
